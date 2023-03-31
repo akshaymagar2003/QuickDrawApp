@@ -46,10 +46,10 @@ class DrawingView(context: Context,ats:AttributeSet) : View(context,ats){
 
     }
 //    There is inbuild method ondraw
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
     //parameters are given like from where to start
-     canvas!!.drawBitmap(mcanvasBitmap!!,0f,0f,mCanvasPaint)
+     canvas.drawBitmap(mcanvasBitmap!!,0f,0f,mCanvasPaint)
     if(!mDrawPath!!.isEmpty){
 mDrawPaint!!.strokeWidth=mDrawPath!!.brushThickness
         mDrawPaint!!.color=mDrawPath!!.color
