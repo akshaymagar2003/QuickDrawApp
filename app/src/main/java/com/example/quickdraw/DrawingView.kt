@@ -39,6 +39,7 @@ class DrawingView(context: Context,ats:AttributeSet) : View(context,ats){
 //        mBrushSize=10.toFloat()
 //we don't need the above value because we have created the set brush function below
   // we are left with the initilisation of mcanvasBitmap and canvas so lets initized it first
+
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

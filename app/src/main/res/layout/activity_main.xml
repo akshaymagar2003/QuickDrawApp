@@ -4,21 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F53F06"
     tools:context=".MainActivity">
 
-<!--    View of class is created brecause we have difined class as view -->
+    <!--    View of class is created brecause we have difined class as view -->
     <com.example.quickdraw.DrawingView
         android:id="@+id/drawingView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_height="660dp"
         android:background="@drawable/background_drawing_view_layout"
-        app:layout_constraintBaseline_toBottomOf="parent"
-        app:layout_constraintBaseline_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ib_brush"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/ib_brush"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/brush"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/drawingView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
