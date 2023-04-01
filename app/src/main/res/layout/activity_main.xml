@@ -33,14 +33,14 @@
 
             android:layout_width="25dp"
             android:layout_height="25dp"
-
+            android:onClick="paintClicked"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/Yellow"
             android:src="@drawable/pallet_nomal_color"
             android:tag="@color/Yellow" />
         <ImageButton
-
+            android:onClick="paintClicked"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:tag="@color/DarkRed"
@@ -50,6 +50,7 @@
             android:layout_marginRight="5dp"
             />
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -61,6 +62,7 @@
             />
 
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -71,6 +73,7 @@
             android:layout_marginRight="5dp"
             />
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -81,6 +84,7 @@
             android:layout_marginRight="5dp"
             />
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -91,6 +95,7 @@
             android:layout_marginRight="5dp"
             />
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -101,6 +106,7 @@
             android:layout_marginRight="5dp"
             />
         <ImageButton
+            android:onClick="paintClicked"
 
             android:layout_width="25dp"
             android:layout_height="25dp"

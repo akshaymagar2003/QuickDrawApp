@@ -102,7 +102,10 @@ fun setSizeForBrush(newSize:Float){
         )
     mDrawPaint!!.strokeWidth=mBrushSize
 }
-
+fun setColorForBrush(col:String){
+    color=Color.parseColor(col)
+    mDrawPaint!!.color=color
+}
     internal inner class CustomPath(var color:Int,var brushThickness:Float) : Path(){
 
     }
