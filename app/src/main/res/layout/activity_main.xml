@@ -4,19 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F53F06"
+
     tools:context=".MainActivity">
 
     <!--    View of class is created brecause we have difined class as view -->
     <com.example.quickdraw.DrawingView
         android:id="@+id/drawingView"
-        android:layout_width="wrap_content"
-        android:layout_height="660dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
         android:background="@drawable/background_drawing_view_layout"
-        app:layout_constraintBottom_toTopOf="@id/ib_brush"
+        app:layout_constraintBottom_toTopOf="@id/ColorPallet"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ColorPallet"
+        app:layout_constraintBottom_toTopOf="@id/ib_brush"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/drawingView">
+
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/Yellow"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/Yellow"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/DarkRed"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/DarkRed"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/DarkGreen"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/DarkGreen"
+            />
+
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/Purple"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/Purple"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/black"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/black"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/DeepSkyBlue"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/DeepSkyBlue"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/Olive"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/Olive"
+            />
+        <ImageButton
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="2dp"
+            android:tag="@color/purple_500"
+            android:src="@drawable/pallet_nomal_color"
+            android:background="@color/purple_500"
+            />
+
+
+
+
+
+    </LinearLayout>
+
+
+
 
     <ImageButton
         android:id="@+id/ib_brush"
@@ -27,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/drawingView" />
+        app:layout_constraintTop_toBottomOf="@id/ColorPallet" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
