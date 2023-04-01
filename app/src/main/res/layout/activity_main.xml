@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/ColorPallet"
-        app:layout_constraintBottom_toTopOf="@id/ib_brush"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_pallet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Fragment_Layout">
@@ -153,18 +153,41 @@
     </LinearLayout>
 
 
-
-
-    <ImageButton
-        android:id="@+id/ib_brush"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/brush"
+    <LinearLayout
+        android:id="@+id/ll_bottom_pallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ColorPallet" />
+        app:layout_constraintTop_toBottomOf="@id/ColorPallet">
+
+        <ImageButton
+            android:id="@+id/ib_brush"
+            android:layout_width="40dp"
+            android:layout_margin="5dp"
+            android:layout_height="40dp"
+            android:background="@color/white"
+
+            android:src="@drawable/brushpaint"
+
+            />
+
+        <ImageButton
+            android:id="@+id/ib_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/photogallery"
+             />
+    </LinearLayout>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
