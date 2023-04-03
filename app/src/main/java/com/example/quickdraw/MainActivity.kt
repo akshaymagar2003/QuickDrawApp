@@ -13,8 +13,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
     private var DrawingView:DrawingView?=null
@@ -49,8 +51,8 @@ class MainActivity : AppCompatActivity() {
         }
         val ibGallary:ImageButton=findViewById(R.id.ib_background)
         ibGallary.setOnClickListener {
-
-        }
+requestStoragePermission()
+                       }
 
         //The below code is useful to access the image button in linear layout by using indexing like an array
 
@@ -103,6 +105,17 @@ fun paintClicked(view:View){
   }
 }
 
+     private fun requestStoragePermission(){
+             if(ActivityCompat.shouldShowRequestPermissionRationale(
+                     this,Manifest.permission.READ_EXTERNAL_STORAGE
+             )){
+                 showRationaleDialog("Kids Drawing App","Kids Drawing App"+"needs to Access YOur External Storage")
+             }else{
+                 requestPermission.launch(arrayOf(
+                     Manifest.permission.READ_EXTERNAL_STORAGE
+                 ))
+             }
+     }
     private fun showRationaleDialog(title:String,message:String){
         val builder:AlertDialog.Builder=AlertDialog.Builder(this)
         builder.setTitle(title)
