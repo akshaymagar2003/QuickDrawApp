@@ -176,6 +176,20 @@
             android:src="@drawable/brushpaint"
 
             />
+        <ImageButton
+            android:id="@+id/ib_Undo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/undo"
+            />
+        <ImageButton
+            android:id="@+id/ib_redo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/redo"
+            />
 
         <ImageButton
             android:id="@+id/ib_background"
@@ -184,6 +198,7 @@
             android:layout_margin="5dp"
             android:src="@drawable/photogallery"
              />
+
     </LinearLayout>
 
 

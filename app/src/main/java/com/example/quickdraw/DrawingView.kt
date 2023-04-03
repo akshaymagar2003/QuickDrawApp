@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import java.nio.file.Paths
 
 class DrawingView(context: Context,ats:AttributeSet) : View(context,ats){
 
@@ -23,6 +24,7 @@ class DrawingView(context: Context,ats:AttributeSet) : View(context,ats){
     private var color= Color.BLACK
     private var canvas:Canvas?=null
     private  val paths= ArrayList<CustomPath>()
+    private  val Undopaths= ArrayList<CustomPath>()
 
     init{
         setUpDrawing()
@@ -67,6 +69,18 @@ mDrawPaint!!.strokeWidth=mDrawPath!!.brushThickness
 
 
 
+    }
+    fun OnclickedUndo(){
+        if(paths.size>0){
+            Undopaths.add(paths.removeAt(paths.size-1))
+            invalidate()
+        }
+    }
+    fun OnclickedRedu(){
+        if(Undopaths.size>0){
+            paths.add(Undopaths.removeAt(Undopaths.size-1))
+            invalidate()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

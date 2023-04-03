@@ -65,6 +65,10 @@ class MainActivity : AppCompatActivity() {
         ibGallary.setOnClickListener {
 requestStoragePermission()
                        }
+        val ibUndo:ImageButton=findViewById(R.id.ib_Undo)
+        ibUndo.setOnClickListener {
+           DrawingView?.OnclickedUndo()
+        }
 
         //The below code is useful to access the image button in linear layout by using indexing like an array
 
