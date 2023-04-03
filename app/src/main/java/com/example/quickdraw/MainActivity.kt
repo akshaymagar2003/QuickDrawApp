@@ -69,6 +69,10 @@ requestStoragePermission()
         ibUndo.setOnClickListener {
            DrawingView?.OnclickedUndo()
         }
+        val ibRedo:ImageButton=findViewById(R.id.ib_redo)
+        ibRedo.setOnClickListener {
+            DrawingView?.OnclickedRedu()
+        }
 
         //The below code is useful to access the image button in linear layout by using indexing like an array
 
