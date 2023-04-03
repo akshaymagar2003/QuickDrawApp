@@ -1,5 +1,7 @@
 package com.example.quickdraw
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,13 +10,34 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 
 class MainActivity : AppCompatActivity() {
     private var DrawingView:DrawingView?=null
    lateinit var brush_button:ImageButton
+
    private lateinit var mImageButtonCurrentPaint:ImageButton
+    val requestPermission:ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+            permissions->permissions.entries.forEach {
+                val permissionName=it.key
+            val isGranted=it.value
+
+            if(isGranted){
+                Toast.makeText(this@MainActivity,"Permission granted now you can read the storage files",Toast.LENGTH_LONG).show()
+            }
+            else{
+                if(permissionName==Manifest.permission.READ_EXTERNAL_STORAGE){
+                    Toast.makeText(this@MainActivity,"Oops you just denied the permission",Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,6 +46,10 @@ class MainActivity : AppCompatActivity() {
         brush_button=findViewById(R.id.ib_brush)
         brush_button.setOnClickListener{
             showBrushSizeDialog()
+        }
+        val ibGallary:ImageButton=findViewById(R.id.ib_background)
+        ibGallary.setOnClickListener {
+
         }
 
         //The below code is useful to access the image button in linear layout by using indexing like an array
@@ -75,4 +102,14 @@ fun paintClicked(view:View){
 
   }
 }
+
+    private fun showRationaleDialog(title:String,message:String){
+        val builder:AlertDialog.Builder=AlertDialog.Builder(this)
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Cancel")
+            { dialog, _->dialog.dismiss()
+            }
+        builder.create().show()
+    }
 }
