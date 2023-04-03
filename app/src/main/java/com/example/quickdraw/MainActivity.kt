@@ -3,11 +3,14 @@ package com.example.quickdraw
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -21,7 +24,14 @@ import java.security.Permission
 class MainActivity : AppCompatActivity() {
     private var DrawingView:DrawingView?=null
    lateinit var brush_button:ImageButton
-
+   val openGallaryLauncher: ActivityResultLauncher<Intent> =registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    {
+       result ->
+        if(result.resultCode== RESULT_OK && result.data!=null){
+            val imageBackGround:ImageView=findViewById(R.id.iv_background)
+          imageBackGround.setImageURI(result.data?.data)
+        }
+   }
    private lateinit var mImageButtonCurrentPaint:ImageButton
     val requestPermission:ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
@@ -31,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
             if(isGranted){
                 Toast.makeText(this@MainActivity,"Permission granted now you can read the storage files",Toast.LENGTH_LONG).show()
+                val pickIntent=Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+             openGallaryLauncher.launch(pickIntent)
             }
             else{
                 if(permissionName==Manifest.permission.READ_EXTERNAL_STORAGE){
