@@ -22,6 +22,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
@@ -160,5 +165,27 @@ fun paintClicked(view:View){
             { dialog, _->dialog.dismiss()
             }
         builder.create().show()
+    }
+
+    private suspend fun saveBitmapFIle(mBitmap: Bitmap?):String{
+        var result=""
+        withContext(Dispatchers.IO){
+            if(mBitmap!=null){
+                 try {
+                     val bytes=ByteArrayOutputStream()
+                     mBitmap.compress(Bitmap.CompressFormat.PNG,90,bytes)
+
+                     val f= File(externalCacheDir?.absoluteFile.toString() + File.separator + "QuickDraw_"+System.currentTimeMillis()/1000 + ".png"
+                     )
+                     val fo=FileOutputStream(f)
+                     fo.write(bytes.toByteArray())
+                     fo.close()
+                     result=f.absolutePath
+
+
+
+                 }
+            }
+        }
     }
 }
