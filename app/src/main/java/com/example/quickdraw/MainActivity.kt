@@ -1,5 +1,4 @@
 package com.example.quickdraw
-
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
@@ -11,31 +10,23 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.get
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.*
-import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
     private var DrawingView:DrawingView?=null
@@ -271,7 +262,12 @@ private fun isReadStorageAllowed():Boolean{
                             //    "File saved successfully: $result", Toast.LENGTH_SHORT).show()
                             Toast.makeText(this@MainActivity,
                                 "File saved successfully: $relativeLocation/$name", Toast.LENGTH_SHORT).show()
-//                            shareImage(FileProvider.getUriForFile(baseContext,"com.ancal.kidsdrawingapp.fileprovider",f))
+//                            shareImage(FileProvider.getUriForFile(this@MainActivity,"com.example.quickdraw.fileprovider",result))
+//                            shareImage(result)
+                            setUpEnablingFeatures(FileProvider.getUriForFile(baseContext,"com.example.quickdraw.fileprovider",f))
+
+
+
                         }
                         else{
                             Toast.makeText(this@MainActivity,
@@ -303,5 +299,17 @@ private fun isReadStorageAllowed():Boolean{
             customProgressDialog?.dismiss()
             customProgressDialog = null
         }
+    }
+
+    private fun setUpEnablingFeatures(uri:Uri){
+
+
+        val intent = Intent().apply {
+            this.action = Intent.ACTION_SEND
+            this.putExtra(Intent.EXTRA_STREAM, uri)
+            this.type = "image/png"
+        }
+        startActivity(Intent.createChooser(intent, "Share image via "))
+
     }
 }
