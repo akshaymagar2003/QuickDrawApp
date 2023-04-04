@@ -39,6 +39,7 @@ import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
     private var DrawingView:DrawingView?=null
+    var customProgressDialog: Dialog? = null
    lateinit var brush_button:ImageButton
    val openGallaryLauncher: ActivityResultLauncher<Intent> =registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     {
@@ -92,9 +93,12 @@ requestStoragePermission()
         val ibsave:ImageButton=findViewById(R.id.ib_save)
         ibsave.setOnClickListener {
     if(isReadStorageAllowed()){
+        showProgressDialog()
+
         lifecycleScope.launch{
                  val flDrawingView:FrameLayout=findViewById(R.id.fl_Layout)
             val myBitmap:Bitmap=getBitmapFromView(flDrawingView)
+
             saveBitmapFile(myBitmap)
 
 
@@ -259,8 +263,9 @@ private fun isReadStorageAllowed():Boolean{
                     fo.write(bytes.toByteArray())
                     fo.close()
                     result = f.absolutePath
-                    runOnUiThread{
 
+                    runOnUiThread{
+                        cancelProgressDialog()
                         if(result.isNotEmpty()){
                             //Toast.makeText(this@MainActivity,
                             //    "File saved successfully: $result", Toast.LENGTH_SHORT).show()
@@ -281,5 +286,22 @@ private fun isReadStorageAllowed():Boolean{
             }
         }
         return result
+    }
+
+    private fun showProgressDialog() {
+        customProgressDialog = Dialog(this@MainActivity)
+
+        /*Set the screen content from a layout resource.
+        The resource will be inflated, adding all top-level views to the screen.*/
+        customProgressDialog?.setContentView(R.layout.dialog_custom_progress)
+
+        //Start the dialog and display it on screen.
+        customProgressDialog?.show()
+    }
+    private fun cancelProgressDialog() {
+        if (customProgressDialog != null) {
+            customProgressDialog?.dismiss()
+            customProgressDialog = null
+        }
     }
 }
