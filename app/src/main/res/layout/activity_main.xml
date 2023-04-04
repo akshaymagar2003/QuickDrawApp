@@ -7,7 +7,7 @@
 
     tools:context=".MainActivity">
 <FrameLayout
-    android:id="@+id/Fragment_Layout"
+    android:id="@+id/fl_Layout"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:layout_margin="5dp"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_drawing_view_layout"/>
+        android:src="@drawable/brush"/>
 
     <com.example.quickdraw.DrawingView
         android:id="@+id/drawingView"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@id/ll_bottom_pallet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Fragment_Layout">
+        app:layout_constraintTop_toBottomOf="@id/fl_Layout">
 
         <ImageButton
 

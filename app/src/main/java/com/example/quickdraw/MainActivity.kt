@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -22,7 +24,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -80,6 +85,18 @@ requestStoragePermission()
         val ibRedo:ImageButton=findViewById(R.id.ib_redo)
         ibRedo.setOnClickListener {
             DrawingView?.OnclickedRedu()
+        }
+        val ibsave:ImageButton=findViewById(R.id.ib_save)
+        ibsave.setOnClickListener {
+    if(isReadStorageAllowed()){
+        lifecycleScope.launch{
+                 val flDrawingView:FrameLayout=findViewById(R.id.fl_Layout)
+            val myBitmap:Bitmap=getBitmapFromView(flDrawingView)
+            saveBitmapFIle(myBitmap)
+
+
+        }
+    }
         }
 
         //The below code is useful to access the image button in linear layout by using indexing like an array
@@ -146,6 +163,14 @@ fun paintClicked(view:View){
         return returnedBitmap
         }
 
+private fun isReadStorageAllowed():Boolean{
+    val result=ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    return result == PackageManager.PERMISSION_GRANTED
+}
+
+
+
        private fun requestStoragePermission(){
              if(ActivityCompat.shouldShowRequestPermissionRationale(
                      this,Manifest.permission.READ_EXTERNAL_STORAGE
@@ -154,6 +179,7 @@ fun paintClicked(view:View){
              }else{
                  requestPermission.launch(arrayOf(
                      Manifest.permission.READ_EXTERNAL_STORAGE
+                 ,Manifest.permission.WRITE_EXTERNAL_STORAGE
                  ))
              }
      }
@@ -183,6 +209,7 @@ fun paintClicked(view:View){
                      result=f.absolutePath
 
 
+
                      runOnUiThread{
                         if(result.isNotEmpty()){
                             Toast.makeText(this@MainActivity,"File saved Successfully :$result",Toast.LENGTH_SHORT).show()
@@ -192,8 +219,12 @@ fun paintClicked(view:View){
                         }
 
                      }
+                 }catch (e:Exception){
+                     result=""
+                     e.printStackTrace()
                  }
             }
         }
+        return result
     }
 }
