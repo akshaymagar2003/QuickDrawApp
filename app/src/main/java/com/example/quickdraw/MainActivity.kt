@@ -183,7 +183,15 @@ fun paintClicked(view:View){
                      result=f.absolutePath
 
 
+                     runOnUiThread{
+                        if(result.isNotEmpty()){
+                            Toast.makeText(this@MainActivity,"File saved Successfully :$result",Toast.LENGTH_SHORT).show()
+                        } else{
+                            Toast.makeText(this@MainActivity,"Somthing is wrong while savingthe file :$result",Toast.LENGTH_SHORT).show()
 
+                        }
+
+                     }
                  }
             }
         }
