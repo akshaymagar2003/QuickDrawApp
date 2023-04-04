@@ -196,8 +196,16 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:src="@drawable/photogallery"
+            android:src="@drawable/gallery2"
              />
+
+        <ImageButton
+            android:id="@+id/ib_save"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/save"
+            />
 
     </LinearLayout>
 
