@@ -3,13 +3,17 @@ package com.example.quickdraw
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -23,15 +27,14 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.get
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import java.io.*
 import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
@@ -92,7 +95,7 @@ requestStoragePermission()
         lifecycleScope.launch{
                  val flDrawingView:FrameLayout=findViewById(R.id.fl_Layout)
             val myBitmap:Bitmap=getBitmapFromView(flDrawingView)
-            saveBitmapFIle(myBitmap)
+            saveBitmapFile(myBitmap)
 
 
         }
@@ -193,36 +196,88 @@ private fun isReadStorageAllowed():Boolean{
         builder.create().show()
     }
 
-    private suspend fun saveBitmapFIle(mBitmap: Bitmap?):String{
-        var result=""
+    private suspend fun saveBitmapFile(mBitmap: Bitmap?): String{
+        var result = ""
         withContext(Dispatchers.IO){
-            if(mBitmap!=null){
-                 try {
-                     val bytes=ByteArrayOutputStream()
-                     mBitmap.compress(Bitmap.CompressFormat.PNG,90,bytes)
+            if (mBitmap != null) {
+                try{
+                    val bytes = ByteArrayOutputStream()
+                    mBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
 
-                     val f= File(externalCacheDir?.absoluteFile.toString() + File.separator + "QuickDraw_"+System.currentTimeMillis()/1000 + ".png"
-                     )
-                     val fo=FileOutputStream(f)
-                     fo.write(bytes.toByteArray())
-                     fo.close()
-                     result=f.absolutePath
+                    var f = File(externalCacheDir?.absoluteFile.toString() +
+                            File.separator + "KidsDrawingApp_" + System.currentTimeMillis() / 1000 + ".png")
 
+                    val name = "KidsDrawingApp_" + System.currentTimeMillis() / 1000 + ".png"
+                    val relativeLocation = Environment.DIRECTORY_PICTURES + "/KidsDrawingApp"
 
+                    val contentValues  = ContentValues().apply {
+                        put(MediaStore.Images.ImageColumns.DISPLAY_NAME, name)
+                        put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
 
-                     runOnUiThread{
-                        if(result.isNotEmpty()){
-                            Toast.makeText(this@MainActivity,"File saved Successfully :$result",Toast.LENGTH_SHORT).show()
-                        } else{
-                            Toast.makeText(this@MainActivity,"Somthing is wrong while savingthe file :$result",Toast.LENGTH_SHORT).show()
+                        // without this part causes "Failed to create new MediaStore record" exception to be invoked (uri is null below)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            put(MediaStore.Images.ImageColumns.RELATIVE_PATH, relativeLocation)
+                        }
+                    }
 
+                    val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    var stream: OutputStream? = null
+                    var uri: Uri? = null
+
+                    try {
+                        uri = contentResolver.insert(contentUri, contentValues)
+                        if (uri == null){
+                            throw IOException("Failed to create new MediaStore record.")
                         }
 
-                     }
-                 }catch (e:Exception){
-                     result=""
-                     e.printStackTrace()
-                 }
+                        stream = contentResolver.openOutputStream(uri)
+                        if (stream == null){
+                            throw IOException("Failed to get output stream.")
+                        }
+
+                        if (!mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
+                            throw IOException("Failed to save bitmap.")
+                        }
+                        //this would open a gallery app
+                        //   val intent = Intent()
+                        //   intent.type = "image/*"
+                        //   intent.action = Intent.ACTION_VIEW
+                        //   intent.data = contentUri
+                        //   startActivity(Intent.createChooser(intent, "Select Gallery App"))
+
+                    }
+                    catch(e: IOException) {
+                        if (uri != null) {
+                            contentResolver.delete(uri, null, null)
+                        }
+                        throw IOException(e)
+                    }
+                    finally {
+                        stream?.close()
+                    }
+                    val fo = FileOutputStream(f)
+                    fo.write(bytes.toByteArray())
+                    fo.close()
+                    result = f.absolutePath
+                    runOnUiThread{
+
+                        if(result.isNotEmpty()){
+                            //Toast.makeText(this@MainActivity,
+                            //    "File saved successfully: $result", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity,
+                                "File saved successfully: $relativeLocation/$name", Toast.LENGTH_SHORT).show()
+//                            shareImage(FileProvider.getUriForFile(baseContext,"com.ancal.kidsdrawingapp.fileprovider",f))
+                        }
+                        else{
+                            Toast.makeText(this@MainActivity,
+                                "Something went wrong saving the file", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                catch(e:Exception){
+                    result = ""
+                    e.printStackTrace()
+                }
             }
         }
         return result
